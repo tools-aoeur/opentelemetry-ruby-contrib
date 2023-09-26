@@ -261,4 +261,16 @@ describe OpenTelemetry::Instrumentation::ActiveJob::Handlers::Perform do
       _(CallbacksJob.context_after).must_be :valid?
     end
   end
+
+  describe 'peer.service' do
+    let(:config) { { peer_service: 'MyActiveJobService' } }
+
+    it 'add peer.service info' do
+      TestJob.perform_later
+
+      [publish_span, process_span].each do |span|
+        _(span.attributes['peer.service']).must_equal('MyActiveJobService')
+      end
+    end
+  end
 end
