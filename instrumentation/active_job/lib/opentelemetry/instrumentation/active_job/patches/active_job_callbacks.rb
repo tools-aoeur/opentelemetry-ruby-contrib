@@ -78,6 +78,7 @@ module OpenTelemetry
             }
 
             otel_attributes['net.transport'] = 'inproc' if %w[async inline].include?(job.class.queue_adapter_name)
+            otel_attributes['peer.service'] = otel_config[:peer_service] if otel_config[:peer_service]
 
             otel_attributes.compact
           end
