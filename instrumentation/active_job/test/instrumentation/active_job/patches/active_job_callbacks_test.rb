@@ -239,6 +239,18 @@ describe OpenTelemetry::Instrumentation::ActiveJob::Patches::ActiveJobCallbacks 
         _(span.attributes['messaging.message_id']).must_equal(job.job_id)
       end
     end
+
+    describe 'peer.service' do
+      let(:config) { { peer_service: 'MyActiveJobService' } }
+
+      it 'add peer.service info' do
+        TestJob.perform_later
+
+        [publish_span, process_span].each do |span|
+          _(span.attributes['peer.service']).must_equal('MyActiveJobService')
+        end
+      end
+    end
   end
 
   describe 'span_naming option' do
