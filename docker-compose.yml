@@ -128,6 +128,10 @@ services:
   ex-instrumentation-net-http:
     <<: *base
     working_dir: /app/instrumentation/net_http/example
+  
+  ex-instrumentation-net-ldap:
+    <<: *base
+    working_dir: /app/instrumentation/net_ldap/example
 
   ex-instrumentation-que:
     <<: *base
