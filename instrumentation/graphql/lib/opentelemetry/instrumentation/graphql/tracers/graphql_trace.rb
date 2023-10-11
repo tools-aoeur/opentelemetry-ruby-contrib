@@ -63,7 +63,7 @@ module OpenTelemetry
             attributes['graphql.operation.name'] = query.selected_operation_name if query.selected_operation_name
             attributes['graphql.operation.type'] = query.selected_operation.operation_type
             attributes['graphql.document'] = query.query_string
-            attributes['graphql.variables'] = query.variables
+            attributes['graphql.variables'] = query.variables.to_h.to_json if query.variables.length.positive?
 
             tracer.in_span('graphql.execute_query', attributes: attributes, &block)
           end
