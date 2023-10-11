@@ -69,7 +69,8 @@ describe OpenTelemetry::Instrumentation::GraphQL::Tracers::GraphQLTracer do
         expected_attributes = {
           'graphql.operation.name' => 'SimpleQuery',
           'graphql.operation.type' => 'query',
-          'graphql.document' => 'query SimpleQuery{ simpleField }'
+          'graphql.document' => 'query SimpleQuery{ simpleField }',
+          'graphql.variables' => '{ id: 1 }'
         }
 
         SomeGraphQLAppSchema.execute('query SimpleQuery{ simpleField }')
