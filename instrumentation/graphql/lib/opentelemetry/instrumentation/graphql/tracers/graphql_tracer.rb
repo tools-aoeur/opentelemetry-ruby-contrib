@@ -99,9 +99,11 @@ module OpenTelemetry
               attributes['graphql.type.name'] = data[:type]&.graphql_name
               attributes['graphql.lazy'] = key == 'resolve_type_lazy'
             when 'execute_query'
-              attributes['graphql.operation.name'] = data[:query].selected_operation_name if data[:query].selected_operation_name
-              attributes['graphql.operation.type'] = data[:query].selected_operation.operation_type
-              attributes['graphql.document'] = data[:query].query_string
+              query = data[:query]
+              attributes['graphql.operation.name'] = query.selected_operation_name if query.selected_operation_name
+              attributes['graphql.operation.type'] = query.selected_operation.operation_type
+              attributes['graphql.document'] = query.query_string
+              attributes['graphql.variables'] = query.variables.to_h.to_json if query.variables.length.positive?
             end
             attributes
           end
