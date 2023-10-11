@@ -66,6 +66,14 @@ describe OpenTelemetry::Instrumentation::GraphQL::Tracers::GraphQLTracer do
         _(result.to_h['data']).must_equal(expected_result)
       end
 
+      it 'graphql.execute_query holds the variable contents' do
+        SomeGraphQLAppSchema.execute(query_string, variables: { id: 1 })
+
+        span = spans.find { |s| s.name == 'graphql.execute_query' }
+        _(span).wont_be_nil
+        _(span.attributes['graphql.variables']).must_equal('{"id":1}')
+      end
+
       it 'includes operation attributes for execute_query' do
         expected_attributes = {
           'graphql.operation.name' => 'SimpleQuery',

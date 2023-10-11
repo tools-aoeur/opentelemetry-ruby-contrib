@@ -130,6 +130,7 @@ module OpenTelemetry
               attrs['graphql.operation.type'] = data[:query].selected_operation.operation_type if data[:query].selected_operation && data[:query].selected_operation.operation_type
               # rubocop:enable Style/SafeNavigation
               attrs['graphql.operation.name'] = data[:query].selected_operation_name || 'anonymous'
+              attrs['graphql.variables'] = data[:query].variables.to_h.to_json if data[:query].variables.length.positive?
               attrs.freeze
             else
               DEFAULT_HASH
