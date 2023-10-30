@@ -60,28 +60,23 @@ module OpenTelemetry
           def annotate_span_with_response!(span, response)
             return unless response
 
-            status_code = nil
-            message = nil
-            error_message = nil
-            successful = true
+            status_code = ::Net::LDAP::ResultCodeSuccess
+            message = ''
+            error_message = ''
 
-            result = response.result if response.is_a?(::Net::LDAP::PDU)
-
-            if [true, false].include?(response)
-              successful = response
-              status_code = ::Net::LDAP::ResultCodeSuccess if successful
-            elsif result.is_a?(Hash)
-              status_code = (result[:resultCode] || '').to_i
+            if response.is_a?(::Net::LDAP::PDU)
+              status_code = response.result_code
+              error_message = response.error_message.to_s
               message = ::Net::LDAP.result2string(status_code)
-              error_message = result[:errorMessage].to_s
-            else
-              status_code = ::Net::LDAP::ResultCodeSuccess
             end
 
             span.set_attribute('ldap.status_code', status_code)
-            span.set_attribute('ldap.message', message) if message
-            span.set_attribute('ldap.error_message', error_message) unless error_message.to_s.empty?
-            span.status = OpenTelemetry::Trace::Status.error if !successful || error_message
+            span.set_attribute('ldap.message', message)
+            span.set_attribute('ldap.error_message', error_message)
+
+            return if ::Net::LDAP::ResultCodesNonError.include?(status_code)
+
+            span.status = OpenTelemetry::Trace::Status.error
           end
         end
       end
