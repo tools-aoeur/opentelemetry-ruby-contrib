@@ -75,7 +75,7 @@ module OpenTelemetry
             span.set_attribute('ldap.error_message', error_message)
 
             return if ::Net::LDAP::ResultCodesNonError.include?(status_code)
-
+            span.set_attribute('ldap.going_to_error', "status_code #{status_code} belongs to error")
             span.status = OpenTelemetry::Trace::Status.error
           end
         end
