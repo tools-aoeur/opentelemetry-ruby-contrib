@@ -70,8 +70,8 @@ module OpenTelemetry
               message = ::Net::LDAP.result2string(status_code)
             end
             span.set_attribute('ldap.status_code', status_code)
-            span.set_attribute('ldap.message', message)
-            span.set_attribute('ldap.error_message', error_message)
+            span.set_attribute('ldap.message', message) unless message.empty?
+            span.set_attribute('ldap.error_message', error_message) unless error_message.empty?
 
             return if ::Net::LDAP::ResultCodesNonError.include?(status_code)
 
