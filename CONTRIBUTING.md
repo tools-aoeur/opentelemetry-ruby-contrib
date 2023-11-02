@@ -16,7 +16,7 @@ As with other OpenTelemetry clients, opentelemetry-ruby follows the
 ### Focus on Capabilities, Not Structure Compliance
 
 OpenTelemetry is an evolving specification, one where the desires and
-use cases are clear, but the method to satisfy those uses cases are not.
+use cases are clear, but the method to satisfy those use cases are not.
 
 As such, Contributions should provide functionality and behavior that
 conforms to the specification, but the interface and structure are flexible.
@@ -67,15 +67,15 @@ _Setting up a running Ruby environment is outside the scope of this document._
 This repository contains multiple Ruby gems:
 
  *  Various instrumentation gems located in subdirectories of `instrumentation`
+ *  Various resource detector gems located in subdirectories of `resources`
  *  `opentelemetry-propagator-xray` located in the `propagator/xray` directory
  *  `opentelemetry-propagator-ottrace` located in the `propagator/ottrace` directory
- *  `opentelemetry-resource_detectors` located in the `resource_detectors` directory
 
 Each of these gems has its configuration and tests.
 
-For example, to test `opentelemetry-resource_detectors` you would:
+For example, to test `opentelemetry-instrumentation-action_pack` you would:
 
- 1. Change directory to `resource_detectors`
+ 1. Change directory to `instrumentation/action_pack`
  2. Install the bundle with `bundle install`
  3. Run the tests with `bundle exec rake`
 
