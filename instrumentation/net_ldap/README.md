@@ -6,7 +6,7 @@ The OpenTelemetry Net::LDAP Ruby gem is a community maintained instrumentation f
 
 Install the gem using:
 
-```
+```console
 gem install opentelemetry-instrumentation-net_ldap
 ```
 
